@@ -76,6 +76,13 @@ class DefaultController extends AbstractController
     {
         return $this->render('default/les_locations.html.twig');
     }
+
+    public function affichage()
+    {
+        return $this->render('home/affichage.html.twig', [
+            'controller_name' => 'HomeController',
+        ]);
+    }
     
     
 }
