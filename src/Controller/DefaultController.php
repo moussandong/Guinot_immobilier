@@ -29,5 +29,53 @@ class DefaultController extends AbstractController
         ]);
     }
 
+     /** 
+     * @Route("/test", name="test")
+    */
+    public function test()
+    {
+        return $this->render('default/test.html.twig');
+    }
+
+     /** 
+     * @Route("/administration", name="administration")
+    */
+    public function administration()
+    {
+        return $this->render('default/administration.html.twig');
+    }
+
+       /** 
+     * @Route("/connexion", name="connexion")
+    */
+    public function connexion()
+    {
+        return $this->render('default/connexion.html.twig');
+    }
+
+     /** 
+     * @Route("/nouscontacter", name="nouscontacter")
+    */
+    public function nouscontacter()
+    {
+        return $this->render('default/nouscontacter.html.twig');
+    }
+
+     /** 
+     * @Route("/les_ventes", name="les_ventes")
+    */
+    public function les_ventes()
+    {
+        return $this->render('default/les_ventes.html.twig');
+    }
+
+      /** 
+     * @Route("/les_locations", name="les_locations")
+    */
+    public function les_locations()
+    {
+        return $this->render('default/les_locations.html.twig');
+    }
+    
     
 }
