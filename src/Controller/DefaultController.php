@@ -9,7 +9,7 @@ class DefaultController extends AbstractController
 {
     
     /** 
-     * @Route("/", name="accueil")
+     * @Route("/accueil", name="accueil")
     */
     public function accueil()
     {
