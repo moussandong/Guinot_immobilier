@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controller;
-
+use App\Entity\ImmoVente;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -16,16 +16,22 @@ class DefaultController extends AbstractController
         return $this->render('default/accueil.html.twig');
     }
     
-
-    /**
+/**
+     * 
      * @Route("/index", name="index")
      * 
      */
     public function index()
     {
+        // Connexion à Doctrine,
+        // Connexion au Repository,
+        $repo = $this->getDoctrine()->getRepository(ImmoVente::class);
+        $immobiliers = $repo->findAll();
+
         return $this->render('default/index.html.twig', [
-            'day' => "mardi",
-            'controller_name' => 'DefaultController',
+           'controller_name' => 'DefauultController',
+            // passage du contenu de $immobilier
+            'immobiliers'=>$immobiliers
         ]);
     }
 
