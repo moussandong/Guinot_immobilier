@@ -4,61 +4,31 @@
 
 {% block body %}
 
-/ Accueil
-    <div class = "jumbotron">
-        <br> GUINOT IMMOBILIER:</br>
-        <br> ACCESS LOCATION & VENTE D'APPARTEMENTS</br>
-    </div>
-
 <div class="container">
-       <resume>
-            <h2>Categorie / Maison N°01__ !</h2>
-             <div class = "content">
-                <img src="https://via.placeholder.com/400x200" alt=""  align="right">>
-                 <p>On sait depuis longtemps que travailler avec du texte lisible et contenant du sens est source de distractions, et empêche de se concentrer </p>
-                 <p align="justify">sur la mise en page elle-même. L'avantage du Lorem Ipsum sur un texte générique comme 'Du texte. Du texte. Du texte.' est qu'il possède une distribution de lettres plus ou moins normale, et en tout cas comparable avec celle du français standard. De nombreuses suites logicielles de mise en page ou éditeurs de sites Web ont fait du Lorem Ipsum leur faux texte par défaut, et une recherche pour 'Lorem Ipsum' vous conduira vers de nombreux sites qui n'en sont encore qu'à leur phase de construction. Plusieurs versions sont apparues avec le temps, parfois par accident, souvent intentionnellement </p>
-                <a href="" class="btn btn-primary"> Consultez mon article</a>      
-            </div>          
-       </resume>   
 
-       <resume>
-            <h2>Categorie / Maison N°02__ !</h2>
-             <div class = "content">
-                <img src="https://via.placeholder.com/400x200" alt=""  align="right">>
-                 <p>On sait depuis longtemps que travailler avec du texte lisible et contenant du sens est source de distractions, et empêche de se concentrer </p>
-                 <p align="justify">sur la mise en page elle-même. L'avantage du Lorem Ipsum sur un texte générique comme 'Du texte. Du texte. Du texte.' est qu'il possède une distribution de lettres plus ou moins normale, et en tout cas comparable avec celle du français standard. De nombreuses suites logicielles de mise en page ou éditeurs de sites Web ont fait du Lorem Ipsum leur faux texte par défaut, et une recherche pour 'Lorem Ipsum' vous conduira vers de nombreux sites qui n'en sont encore qu'à leur phase de construction. Plusieurs versions sont apparues avec le temps, parfois par accident, souvent intentionnellement </p>
-                <a href="" class="btn btn-primary"> Consultez mon article</a>      
-            </div>          
-       </resume>   
-
-       <resume>
-            <h2>Categorie / Maison N°03__ !</h2>
-             <div class = "content">
-                <img src="https://via.placeholder.com/400x200" alt=""  align="right">>
-                 <p>On sait depuis longtemps que travailler avec du texte lisible et contenant du sens est source de distractions, et empêche de se concentrer </p>
-                 <p align="justify">sur la mise en page elle-même. L'avantage du Lorem Ipsum sur un texte générique comme 'Du texte. Du texte. Du texte.' est qu'il possède une distribution de lettres plus ou moins normale, et en tout cas comparable avec celle du français standard. De nombreuses suites logicielles de mise en page ou éditeurs de sites Web ont fait du Lorem Ipsum leur faux texte par défaut, et une recherche pour 'Lorem Ipsum' vous conduira vers de nombreux sites qui n'en sont encore qu'à leur phase de construction. Plusieurs versions sont apparues avec le temps, parfois par accident, souvent intentionnellement </p>
-                <a href="" class="btn btn-primary"> Consultez mon article</a>      
-            </div>          
-       </resume>   
-       <resume>
-            <h2>Categorie / Maison N°03__ !</h2>
-             <div class = "content">
-                <img src="https://via.placeholder.com/400x200" alt=""  align="right">>
-                 <p>On sait depuis longtemps que travailler avec du texte lisible et contenant du sens est source de distractions, et empêche de se concentrer </p>
-                 <p align="justify">sur la mise en page elle-même. L'avantage du Lorem Ipsum sur un texte générique comme 'Du texte. Du texte. Du texte.' est qu'il possède une distribution de lettres plus ou moins normale, et en tout cas comparable avec celle du français standard. De nombreuses suites logicielles de mise en page ou éditeurs de sites Web ont fait du Lorem Ipsum leur faux texte par défaut, et une recherche pour 'Lorem Ipsum' vous conduira vers de nombreux sites qui n'en sont encore qu'à leur phase de construction. Plusieurs versions sont apparues avec le temps, parfois par accident, souvent intentionnellement </p>
-                <a href="" class="btn btn-primary"> Consultez mon article</a>      
-            </div>          
-       </resume>   
-
-       <resume>
-            <h2>Categorie / Maison N°04__ !</h2>
-             <div class = "content">
-                <img src="https://via.placeholder.com/400x200" alt=""  align="right">>
-                 <p>On sait depuis longtemps que travailler avec du texte lisible et contenant du sens est source de distractions, et empêche de se concentrer </p>
-                 <p align="justify">sur la mise en page elle-même. L'avantage du Lorem Ipsum sur un texte générique comme 'Du texte. Du texte. Du texte.' est qu'il possède une distribution de lettres plus ou moins normale, et en tout cas comparable avec celle du français standard. De nombreuses suites logicielles de mise en page ou éditeurs de sites Web ont fait du Lorem Ipsum leur faux texte par défaut, et une recherche pour 'Lorem Ipsum' vous conduira vers de nombreux sites qui n'en sont encore qu'à leur phase de construction. Plusieurs versions sont apparues avec le temps, parfois par accident, souvent intentionnellement </p>
-                <a href="" class="btn btn-primary"> Consultez mon article</a>      
-            </div>          
-       </resume>   
+{# Liste de ce que j'aimerai afficher#}
+<div class = "row">
+     {% for GuinotVente in GuinotVente %}     
+          <resume>
+               {# Faisant une interpollation#}
+               <h5>categorie / {{ GuinotVente.denomination }}</h5>
+               <p> Date de publication: {{ GuinotVente.createdAt | date('d/m/Y')}}</p>
+               <div class = "content">
+                    <p align="justify"> {{ GuinotVente.categorie}}   </p> 
+                    <p align="justify"> {{ GuinotVente.description}}   </p> 
+                    <p align="justify">Surface {{ GuinotVente.surface}}   </p> 
+                    <p align="justify"> {{ GuinotVente.TypeMaison}}   </p> 
+                    <p align="justify">Chambrer {{ GuinotVente.chambre}}   </p> 
+                    <p align="justify">Etage{{ GuinotVente.etage}}   </p> 
+                    <p align="justify">Cout{{ GuinotVente.cout}}   </p> 
+                    <p align="justify">{{ GuinotVente.adresse}}   </p> 
+                    <p align="justify"> {{ GuinotVente.accessibilite}}   </p> 
+                    <img src="{{ GuinotVente.photo}}" alt=""  align="left">
+                    <a href="{{ path('les_ventes', {'id': GuinotVente.id })}}" class="btn btn-primary"> Consulter</a>  
+               </div>          
+          </resume>
+          <hr> </hr>
+     {% endfor %} 
 </div>
 
 {% endblock %}
