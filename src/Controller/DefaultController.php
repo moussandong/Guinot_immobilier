@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Controller;
-
+use App\Entity\ImmoVente;
+use App\Entity\GuinotVente;
+use App\Entity\GuinotLocation;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -16,16 +18,22 @@ class DefaultController extends AbstractController
         return $this->render('default/accueil.html.twig');
     }
     
-
-    /**
+/**
+     * 
      * @Route("/index", name="index")
      * 
      */
     public function index()
     {
+        // Connexion à Doctrine,
+        // Connexion au Repository,
+        $repo = $this->getDoctrine()->getRepository(ImmoVente::class);
+        $immobiliers = $repo->findAll();
+
         return $this->render('default/index.html.twig', [
-            'day' => "mardi",
-            'controller_name' => 'DefaultController',
+           'controller_name' => 'DefauultController',
+            // passage du contenu de $immobilier
+            'immobiliers'=>$immobiliers
         ]);
     }
 
@@ -61,20 +69,42 @@ class DefaultController extends AbstractController
         return $this->render('default/nouscontacter.html.twig');
     }
 
-     /** 
+     /**
+     * 
      * @Route("/les_ventes", name="les_ventes")
-    */
+     * 
+     */
     public function les_ventes()
     {
-        return $this->render('default/les_ventes.html.twig');
+        // Connexion à Doctrine,
+        // Connexion au Repository,
+        $repo = $this->getDoctrine()->getRepository(GuinotVente::class);
+        $GuinotVente = $repo->findAll();
+
+        return $this->render('default/les_ventes.html.twig', [
+           'controller_name' => 'DefauultController',
+            // passage du contenu de $immobilier
+            'GuinotVente'=>$GuinotVente
+        ]);
     }
 
-      /** 
+  /**
+     * 
      * @Route("/les_locations", name="les_locations")
-    */
+     * 
+     */
     public function les_locations()
     {
-        return $this->render('default/les_locations.html.twig');
+        // Connexion à Doctrine,
+        // Connexion au Repository,
+        $repo = $this->getDoctrine()->getRepository(GuinotLocation::class);
+        $GuinotLocation = $repo->findAll();
+
+        return $this->render('default/les_locations.html.twig', [
+           'controller_name' => 'DefauultController',
+            // passage du contenu de $immobilier
+            'GuinotLocation'=>$GuinotLocation
+        ]);
     }
 
     /**
