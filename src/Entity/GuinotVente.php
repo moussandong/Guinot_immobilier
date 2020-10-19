@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\GuinotVenteRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=GuinotVenteRepository::class)
@@ -19,21 +20,40 @@ class GuinotVente
 
     /**
      * @ORM\Column(type="datetime")
+     * @var string A "Y-m-d H:i:s" formatted value
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(
+     * min = 2,
+     * max = 50,
+     * minMessage = "Your denomination must be at least {{ limit }} characters long",
+     * maxMessage = "Your denomination cannot be longer than {{ limit }} characters",
+     *      allowEmptyString = false  )
      */
     private $denomination;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(
+     * min = 2,
+     * max = 25,
+     * minMessage = "Your categorie must be at least {{ limit }} characters long",
+     * maxMessage = "Your categorie cannot be longer than {{ limit }} characters",
+     *      allowEmptyString = false  )
      */
     private $categorie;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(
+     * min = 2,
+     * max = 25,
+     * minMessage = "Your photo must be at least {{ limit }} characters long",
+     * maxMessage = "Your photo cannot be longer than {{ limit }} characters",
+     *      allowEmptyString = false  )
      */
     private $photo;
 
@@ -44,6 +64,7 @@ class GuinotVente
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\Positive
      */
     private $surface;
 
@@ -54,6 +75,7 @@ class GuinotVente
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Positive
      */
     private $chambre;
 
@@ -106,7 +128,7 @@ class GuinotVente
         return $this;
     }
 
-    
+
     public function getCategorie(): ?string
     {
         return $this->categorie;
