@@ -2,14 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\ImmoVenteRepository;
+use App\Repository\ImmobilierRepository;
 use Doctrine\ORM\Mapping as ORM;
+
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass=ImmoVenteRepository::class)
+ * @ORM\Entity(repositoryClass=ImmobilierRepository::class)
  */
-class ImmoVente
+class Immobilier
 {
     /**
      * @ORM\Id
@@ -20,12 +21,13 @@ class ImmoVente
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min = 10, max = 50)
+     * @Assert\Length(min=10, max=50, minMessage="Votre titre est trop trop court")   
      */
     private $titre;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(min = 50)   
      */
     private $description;
 
@@ -88,7 +90,6 @@ class ImmoVente
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
-
         return $this;
     }
 }

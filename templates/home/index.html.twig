@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Guinot-immobilier{% endblock %}
+
+{% block body %}
+    <div class = "jumbotron">
+        <br> GUINOT IMMOBILIER:</br>
+        <br> ACCESS LOCATION & VENTE D'APPARTEMENTS</br>
+    </div>
+
+-----------------------------------------------------
+<div class="container">
+      
+{# Liste de ce que j'aimerai afficher#}
+<div class = "row">
+     <div class="col-6">
+          {% for immobilier in immobiliers %}     
+               <resume>
+               {# Faisant une interpollation#}
+               <h5>categorie / {{ immobilier.titre }}</h5>
+               <p> Date de publication: {{ immobilier.createdAt | date('d/m/Y')}}</p>
+               <div class = "content">
+                    <img src="{{ immobilier.photo}}" alt=""  align="left">
+                    <p align="justify"> {{ immobilier.description}}   </p> 
+                    <a href="{{ path('index.affich', {'id': immobilier.id })}}" class="btn btn-primary"> Consulter</a>  
+               </div>          
+               </resume>
+               <hr> </hr>
+          {% endfor %} 
+     </div>
+     <div class="col-6">
+          {% for immobilier in immobiliers %}     
+               <resume>
+               {# Faisant une interpollation#}
+               <h5>categorie / {{ immobilier.titre }}</h5>
+               <p> Date de publication: {{ immobilier.createdAt | date('d/m/Y')}}</p>
+               <div class = "content">
+                    <img src="{{ immobilier.photo}}" alt=""  align="left">
+                    <p align="justify"> {{ immobilier.description}}   </p> 
+                    <a href="{{ path('index.affich', {'id': immobilier.id })}}" class="btn btn-primary"> Consulter</a>  
+               </div>          
+               </resume>
+               <hr> </hr>
+          {% endfor %} 
+     </div>
+
+</div>
+
+ <div class="pagination">
+        {{ knp_pagination_render(immobiliers) }}
+    </div>
+
+</div>
+
+{#       
+      // Liste de ce que j'aimerai afficher
+          <resume>
+            <h5>Categorie / Maison N°01__ !</h5>
+             <div class = "content">
+                <img src="https://via.placeholder.com/300x150" alt=""  align="left">
+                 <p>On sait depuis longtemps que travailler avec du texte lisible et contenant du sens est source de distractions, et empêche de se concentrer </p>
+                 <p align="justify">sur la mise en page elle-même. L'avantage du Lorem Ipsum sur un texte générique comme 'Du texte. Du texte. Du texte.' est qu'il possède une distribution de lettres plus ou moins normale, et en tout cas comparable avec celle du français standard. De nombreuses suites logicielles de mise en page ou éditeurs de sites Web ont fait du Lorem Ipsum leur faux texte par défaut, et une recherche pour 'Lorem Ipsum' vous conduira vers de nombreux sites qui n'en sont encore qu'à leur phase de construction. Plusieurs versions sont apparues avec le temps, parfois par accident, souvent intentionnellement <a href="{{ path('index.affich')}}" class="btn btn-primary"> Consulter</a>    </p>
+               
+            </div>          
+
+       </resume>   #}
+
+
+{% endblock %}

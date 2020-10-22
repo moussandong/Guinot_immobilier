@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Guinot-immobilier{% endblock %}
+
+{% block body %}
+    <div class = "jumbotron">
+        <br> GUINOT IMMOBILIER:</br>
+        <br> ACCESS LOCATION & VENTE D'APPARTEMENTS</br>
+        <h3 style="text-align:center"> LISTE DES BIENS EN LOCATION </h3>
+    </div>
+
+<div class="container">
+
+{# Liste de ce que j'aimerai afficher#}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Libellé de Bien</th>
+                <th>Categorie</th>
+                <th>Date Création</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+             {% for immobilier in immobiliers %}   
+
+            <tr>
+                <td>{{ immobilier.id }}</td>
+                <td>{{ immobilier.titre }}</td>
+                <td>xxxxxxxxxxxxx</td>
+                <td>{{ immobilier.createdAt ? immobilier.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('index.affich', {'id': immobilier.id}) }}"><button type="button" class="btn btn-info">Lire </a>
+                    <a href="{{ path('immo.edition', {'id': immobilier.id}) }}"><button type="button" class="btn btn-primary">Editer</a>
+                    <button class="btn btn-danger">{{ include('all/_delete_form.html.twig') }} </button>
+                </td>
+            </tr>
+        {% else %}
+             <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+        </br>
+        </br>
+        </br>
+        </br>
+        </br>
+
+
+
+
+     </div>
+
+</div>
+
+ <div class="pagination">
+        {{ knp_pagination_render(immobiliers) }}
+    </div>
+
+</div>
+
+
+
+
+{% endblock %}
