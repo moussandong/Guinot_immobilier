@@ -10,7 +10,10 @@
         "doctrine/doctrine-bundle": "^2.1",
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.7",
+<<<<<<< HEAD
         "fzaninotto/faker": "^1.9",
+=======
+>>>>>>> 9fc5225ea4884899240b21c07659d2c545f8798d
         "knplabs/knp-paginator-bundle": "^5.3",
         "phpdocumentor/reflection-docblock": "^5.2",
         "sensio/framework-extra-bundle": "^5.1",
