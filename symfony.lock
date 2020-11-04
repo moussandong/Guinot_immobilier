@@ -99,12 +99,9 @@
     "egulias/email-validator": {
         "version": "2.1.22"
     },
-<<<<<<< HEAD
     "fzaninotto/faker": {
         "version": "v1.9.1"
     },
-=======
->>>>>>> 9fc5225ea4884899240b21c07659d2c545f8798d
     "knplabs/knp-components": {
         "version": "v2.4.2"
     },

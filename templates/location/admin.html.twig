@@ -3,22 +3,9 @@
 {% block title %}Guinot-immobilier{% endblock %}
 
 {% block body %}
-<<<<<<< HEAD
   {{ include('_header_footers/_header_location.html.twig') }}
 <div class="container">
 {# Liste de ce que j'aimerai afficher#}
-=======
-    <div class = "jumbotron">
-        <br> GUINOT IMMOBILIER:</br>
-        <br> ACCESS LOCATION & VENTE D'APPARTEMENTS</br>
-        <h3 style="text-align:center"> LISTE DES BIENS EN LOCATION </h3>
-    </div>
-
-<div class="container">
-
-{# Liste de ce que j'aimerai afficher#}
-
->>>>>>> 9fc5225ea4884899240b21c07659d2c545f8798d
     <table class="table">
         <thead>
             <tr>
@@ -30,7 +17,6 @@
             </tr>
         </thead>
         <tbody>
-<<<<<<< HEAD
              {% for location in locations %}   
             <tr>
                 <td>{{ location.id }}</td>
@@ -44,34 +30,15 @@
                 </td>
             </tr>
             
-=======
-             {% for immobilier in immobiliers %}   
-
-            <tr>
-                <td>{{ immobilier.id }}</td>
-                <td>{{ immobilier.titre }}</td>
-                <td>xxxxxxxxxxxxx</td>
-                <td>{{ immobilier.createdAt ? immobilier.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('index.affich', {'id': immobilier.id}) }}"><button type="button" class="btn btn-info">Lire </a>
-                    <a href="{{ path('immo.edition', {'id': immobilier.id}) }}"><button type="button" class="btn btn-primary">Editer</a>
-                    <button class="btn btn-danger">{{ include('all/_delete_form.html.twig') }} </button>
-                </td>
-            </tr>
->>>>>>> 9fc5225ea4884899240b21c07659d2c545f8798d
         {% else %}
              <tr>
                 <td colspan="9">no records found</td>
             </tr>
-<<<<<<< HEAD
                   <br>
                   <br>
         {% endfor %}
         <a href="{{ path('location.nouveau.admin') }}"><button type="button" class="btn-outline-light">Enregistrer un nouveau Bien </a>
         </br>
-=======
-        {% endfor %}
->>>>>>> 9fc5225ea4884899240b21c07659d2c545f8798d
         </tbody>
     </table>
         </br>
@@ -79,32 +46,12 @@
         </br>
         </br>
         </br>
-<<<<<<< HEAD
      </div>
 </div>
  <div class="pagination">
         {{ knp_pagination_render(locations) }}
-=======
-
-
-
-
-     </div>
-
-</div>
-
- <div class="pagination">
-        {{ knp_pagination_render(immobiliers) }}
->>>>>>> 9fc5225ea4884899240b21c07659d2c545f8798d
     </div>
 
 </div>
 
-<<<<<<< HEAD
 {% endblock %}
-=======
-
-
-
-{% endblock %}
->>>>>>> 9fc5225ea4884899240b21c07659d2c545f8798d

@@ -1,10 +1,6 @@
-<<<<<<< HEAD
 
 
 <form method="post" action="{{ path('immo_delete', {'id': immobilier.id}) }}" onsubmit="return confirm('Voulez-vous vraiment supprimer ce Bien?');">
-=======
-<form method="post" action="{{ path('immo_delete', {'id': immobilier.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
->>>>>>> 9fc5225ea4884899240b21c07659d2c545f8798d
     <input type="hidden" name="_method" value="DELETE">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ immobilier.id) }}">
     <button class="btn btn-danger">Supprimer</button>

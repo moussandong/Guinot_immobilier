@@ -4,11 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-<<<<<<< HEAD
     "content-hash": "f4f827cd50eeffd47e2f24ba0d229348",
-=======
-    "content-hash": "1ad17ff3e80c09db7e82719d7c9919e3",
->>>>>>> 9fc5225ea4884899240b21c07659d2c545f8798d
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -1333,7 +1329,6 @@
             "time": "2020-09-26T15:48:38+00:00"
         },
         {
-<<<<<<< HEAD
             "name": "fzaninotto/faker",
             "version": "v1.9.1",
             "source": {
@@ -1384,8 +1379,6 @@
             "time": "2019-12-12T13:22:17+00:00"
         },
         {
-=======
->>>>>>> 9fc5225ea4884899240b21c07659d2c545f8798d
             "name": "knplabs/knp-components",
             "version": "v2.4.2",
             "source": {

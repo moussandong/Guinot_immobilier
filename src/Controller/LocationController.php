@@ -3,17 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Location;
-<<<<<<< HEAD
 use App\Repository\LocationRepository;
 
 use App\Entity\Categorie;
 use App\Entity\CategorieRepository;
-=======
-use App\Entity\Immobilier;
-use App\Entity\ImmoVente;
-
-use App\Repository\ImmobilierRepository;
->>>>>>> 9fc5225ea4884899240b21c07659d2c545f8798d
 use Doctrine\ORM\EntityManagerInterface;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,7 +14,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Knp\Component\Pager\PaginatorInterface;
-<<<<<<< HEAD
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -33,35 +25,17 @@ class LocationController extends AbstractController
      * @param EntityManageInterface $em
      * @return void
      */
-=======
-
-
-class LocationController extends AbstractController
-{
-    /**
-     * @param ImmobilierRepository $immobilierrepository
-     * @param EntityManageInterface $em
-     * @return void
-     */
-
->>>>>>> 9fc5225ea4884899240b21c07659d2c545f8798d
     public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
     }
-<<<<<<< HEAD
     
     /**
      * Administration de Biens locatifs
-=======
-
-    /**
->>>>>>> 9fc5225ea4884899240b21c07659d2c545f8798d
      * @param
      * @Route("/admin/location", name="location_admin.index")
      * @param
      */
-<<<<<<< HEAD
     public function admin(LocationRepository $locarepo, PaginatorInterface $paginator, Request $request)
     {
     // Connexion à ma BD
@@ -333,22 +307,4 @@ class LocationController extends AbstractController
         return $this->redirectToRoute('location_admin.index');
     }
 
-=======
-    public function index(ImmobilierRepository $immorepo, PaginatorInterface $paginator, Request $request)
-    {
-        // Connexion à ma BD
-        // $repo = $this->getDoctrine()->getRepository(Immobilier::class);
-        $immobiliers = $paginator->paginate(
-            $immorepo->findAll(),
-            $request->query->getInt('page', 1), /*page number*/
-            25 /*limit per page*/
-        );
-
-        // Appel de la page pour affichage
-        return $this->render('location/admin.html.twig', [
-            // passage du contenu de $immobilier
-            'immobiliers' => $immobiliers
-        ]);
-    }
->>>>>>> 9fc5225ea4884899240b21c07659d2c545f8798d
 }
