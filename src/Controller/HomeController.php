@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Data\SearchData;
+use App\Form\SearchForm;
+
 use App\Repository\LocationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,23 +25,31 @@ class HomeController extends AbstractController
         $this->em = $em;
     }
     
-    /**
-     * Affichage de la Page UNE du Site
-     * @param LocationRepository $locationRepository, 
-     * @param Request $reques
-     * @Route("/", name="index")
-     * @Route("/accueil", name="index.accueil")
-     */
-    public function index(LocationRepository $locationRepository, Request $request)
-    {
-    // Connexion à ma BD
-       // $repo = $this->getDoctrine()->getRepository(Immobilier::class);
-        $locations = $locationRepository->findAll();
 
+    /**
+     * Affichage aux users de Biens en location à partir de la UNE du site
+     * Affichage pour les visiteurs // Different de l'affichage pour les Admins
+     * @param LocationRepository $locarepo,
+     * @param PaginatorInterface $paginator,
+     * @param Request $request,
+     * @Route("/", name="location.index")     * @Route("/", name="index")
+     * @Route("/accueil", name="index.accueil")     * @param
+     */
+    public function index(LocationRepository $locarepo, PaginatorInterface $paginator, Request $request)
+    {
+        $data = new SearchData();
+        $form = $this->createForm(SearchForm::class, $data);
+        $form->handleRequest($request);
+        $locations = $paginator->paginate( //utilisation du Paginator pour la pagination des pages
+            $locarepo->findLocaRech($data),
+            $request->query->getInt('page', 1), /*page number*/
+            12 /*limit per page*/
+         );
        // Appel de la page pour affichage
         return $this->render('home/index.html.twig', [
-            // passage du contenu de $immobilier
-            'locations'=>$locations
+            // passage du contenu de $location
+            'locations'=>$locations,
+            'form'=> $form->createView(),
         ]);
     }
 

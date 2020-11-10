@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20201103142257 extends AbstractMigration
+final class Version20201110100534 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -24,6 +24,7 @@ final class Version20201103142257 extends AbstractMigration
         $this->addSql('CREATE TABLE immo_vente (id INT AUTO_INCREMENT NOT NULL, titre VARCHAR(255) NOT NULL, description LONGTEXT NOT NULL, photo VARCHAR(255) NOT NULL, created_at DATETIME NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE immobilier (id INT AUTO_INCREMENT NOT NULL, titre VARCHAR(255) NOT NULL, description LONGTEXT NOT NULL, photo VARCHAR(255) NOT NULL, created_at DATETIME NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE location (id INT AUTO_INCREMENT NOT NULL, categorie_id INT NOT NULL, denomination VARCHAR(255) NOT NULL, photo VARCHAR(255) NOT NULL, created_at DATETIME NOT NULL, description LONGTEXT DEFAULT NULL, surface INT NOT NULL, type VARCHAR(255) NOT NULL, chambre INT NOT NULL, etage INT NOT NULL, prix INT NOT NULL, adresse LONGTEXT NOT NULL, cp INT DEFAULT NULL, ville VARCHAR(255) NOT NULL, pays VARCHAR(255) NOT NULL, accessibility TINYINT(1) NOT NULL, INDEX IDX_5E9E89CBBCF5E72D (categorie_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, email VARCHAR(255) NOT NULL, username VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('ALTER TABLE location ADD CONSTRAINT FK_5E9E89CBBCF5E72D FOREIGN KEY (categorie_id) REFERENCES categorie (id)');
     }
 
@@ -35,5 +36,6 @@ final class Version20201103142257 extends AbstractMigration
         $this->addSql('DROP TABLE immo_vente');
         $this->addSql('DROP TABLE immobilier');
         $this->addSql('DROP TABLE location');
+        $this->addSql('DROP TABLE user');
     }
 }

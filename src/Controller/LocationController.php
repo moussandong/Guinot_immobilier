@@ -6,7 +6,14 @@ use App\Entity\Location;
 use App\Repository\LocationRepository;
 
 use App\Entity\Categorie;
-use App\Entity\CategorieRepository;
+use App\Repository\CategorieRepositorie;
+
+use App\Form\FilterType;
+use App\Model\Filter;
+
+use App\Data\SearchData;
+use App\Form\SearchForm;
+
 use Doctrine\ORM\EntityManagerInterface;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,6 +22,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\FormFactoryInterface; 
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
@@ -53,6 +61,8 @@ class LocationController extends AbstractController
         ]);
     }
 
+
+    
     /**
      * Affichage aux users de Biens en location
      * Affichage pour les visiteurs // Different de l'affichage pour les Admins
@@ -64,15 +74,21 @@ class LocationController extends AbstractController
      */
     public function index(LocationRepository $locarepo, PaginatorInterface $paginator, Request $request)
     {
+        $data = new SearchData();
+        
+        $form = $this->createForm(SearchForm::class, $data);
+        
+        
         $locations = $paginator->paginate( //utilisation du Paginator pour la pagination des pages
-            $locarepo->findAll(),
+            $locarepo->findLocaRech($data),
             $request->query->getInt('page', 1), /*page number*/
             20 /*limit per page*/
          );
        // Appel de la page pour affichage
         return $this->render('location/index.html.twig', [
             // passage du contenu de $location
-            'locations'=>$locations
+            'locations'=>$locations,
+            'form'=> $form->createView(),
         ]);
     }
 
@@ -86,7 +102,7 @@ class LocationController extends AbstractController
      */
     public function listTerrains(LocationRepository $locationrepo, Request $request)
     {
-        $locations= $locationrepo->findByCatTerrains();
+        $locations= $locationrepo->findByCatTerrains02();
        // Appel de la page pour affichage
         return $this->render('location/location_categorie.html.twig', [
             // passage du contenu de $location
@@ -101,15 +117,68 @@ class LocationController extends AbstractController
      * @Route("/location/appartements", name="location.appartements.index")
      * @param
      */
-    public function lisApprtements(LocationRepository $locationrepo, Request $request)
-    {
+    public function lisApprtements(LocationRepository $locationrepo, Request $request, FormFactoryInterface $formFactory)
+    {sky
         $locations= $locationrepo->findByCatAppartements();
        // Appel de la page pour affichage
         return $this->render('location/location_categorie.html.twig', [
             // passage du contenu de $location
-            'locations'=>$locations
+            "page" => $locationrepo->getPaginetedPage((int) $request->query->get("page", 1), 2),
+            'locations'=>$locations,
+
         ]);
     }
+    
+    /**
+     * Affichage aux users de la liste des Appartements en Location
+     * @param LocationRepository $locationrepo,
+     * @param Request $request,
+     * @Route("/location/filter", name="location.filter.index")
+     * @param
+     */
+    
+    public function filtre(LocationRepository $locationrepo, Request $request, FormFactoryInterface $formFactory)
+    {
+        $filter = new Filter();
+        
+        $form = $formFactory->create(FilterType::class, $filter);
+    /*     $form = $this->createFormBuilder($filter)
+                       ->add('keywword')
+                       ->add("categorie", EntityType::class, [
+                        "class" => Categorie::class,
+                        "choice_label" => "titre"
+                        ])
+                        ->add("submit")*/
+
+  //                      ->getForm();
+
+        $form ->handleRequest($request);
+
+        return $this->render('home/location_categorie.html.twig', [
+            // passage du contenu de $location
+            "form" => $form->CreateView()
+        ]);
+    }
+
+    /**
+     * Affichage aux users de la liste des Appartements en Location
+     * @param LocationRepository $locationrepo,
+     * @param Request $request,
+     * @Route("/location/recherche", name="location.recherche.index")
+     * @param
+     */
+    public function rechercheLocation(LocationRepository $locationrepo, Request $request, FormFactoryInterface $formFactory)
+    {
+        $locations = $locationrepo ->findSearch();
+        
+        return $this->render('location/recherche.html.twig', [
+            'controller_name'=>'LocationController',
+            'location'=>$locations,
+            "form" => $form->CreateView()
+        ]);
+    }
+
+
 
 /**
      * Affichage aux users de la liste des MAisons en Location

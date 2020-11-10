@@ -4,17 +4,17 @@
 
 {% block body %}
 
-  {{ include('_header_footers/header_location.html.twig') }}
+  {{ include('_header_footers/header-home.index.html.twig') }}
 
     <div class="container">
           <div class="row" >
 
-               {%for location in locations | slice(0,length=8) %}
+               {%for location in locations  %}
                     <div class="col-3">
                          <div class="card">
                                <img src=" {{ location.photo }} " alt="" width="250">
                                Publié le: {{location.createdAt | date('d/m/Y') }}
-                              <br>{{location.categorie.titre}}
+                              <br><em class="text-muted text-primary text-ilatic"> {{location.categorie.titre}}</em>
                                <ul>
                                    <br>Adresse: {{location.id}} | {{location.ville}} |
                                    <br>Surface : {{ location.surface}} M2
@@ -29,6 +29,10 @@
                {% endfor%}
           
           </div>
+               <div class="pagination">
+                    {{ knp_pagination_render(locations) }}
+               </div>
+
       </div>
 
 {% endblock %}
