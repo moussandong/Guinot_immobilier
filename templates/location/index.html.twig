@@ -1,10 +1,9 @@
-{% extends 'base_admin.html.twig' %}
+{% extends 'base.html.twig' %}
 
-{% block denomination %}Guinot-immobilier{% endblock %}
-
+{% block title %}Guinot-immobilier{% endblock %}
 
 {% block body %}
-  {{ include('_header_footers/header_location_index.html.twig') }}
+  {{ include('_header_footers/header-home.index.html.twig') }}
 
     <div class="container">
           <div class="row" >
@@ -12,6 +11,7 @@
                     <div class="col-3">
                          <div class="card">
                                <img src=" {{ location.photo }} " alt="" width="250">
+                               <img src=" {{ location.images }} " alt="" width="250">
                                Publié le: {{location.createdAt | date('d/m/Y') }}
                               <br>{{location.categorie.titre}}
                                <ul>

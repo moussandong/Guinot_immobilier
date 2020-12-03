@@ -1,29 +1,62 @@
-{% extends 'base.html.twig' %} {% block title 'Connexion!{% endblock' %} {% block body %}
+{% extends 'base.html.twig' %}
 
-<div class="container mt-4">
+{% block title %}Log in!{% endblock %}
 
-    {% if error %}
-        <div class="mb-3">
-            {{ error.messagekey}}
+{% block body %}
+
+  {{ include('_header_footers/header-adm-connexion.html.twig') }}
+  
+<div class="container">
+    <form method="post">
+        {% if error %}
+            <div class="alert alert-danger">
+                {{ error.messageKey|trans(error.messageData, 'security') }}
+            </div>
+        {% endif %}
+ 
+    <div class="row">
+        <div class="col-sm-6">
+                <label for="inputUsername">Username</label>
+                <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" required autofocus>
+                <label for="inputPassword">Password</label>
+                <input type="password" name="password" id="inputPassword" class="form-control" required>
+
+                <input type="hidden" name="_csrf_token"
+                    value="{{ csrf_token('authenticate') }}" >
+                </br>
+                </br>
+                </br>
         </div>
-    {% endif %}
 
-    <h1> Connexion </h1>
-    <form action=" {{ path('admin.login') }} " method="post ">
-        <div class="form-group ">
-            <h5><label> Nom utilisateur</label></h5>
-            <input placeholder=" adresse Mail "type="text " required name="_username" type="text" class="form-conrol" value="{{ last_username }}" >
+        <div class="col-sm-6">
+            <div class="card" style="text-align:center">
+                <div class="card-body">
+                     {% if app.user %}
+                             Connexion établie pour:  <h4> {{ app.user.username }},</h4>
+                        {% else %}
+                             <h5> Cette page est reservée aux membres / Guinot-Immobilier</h5>
+                        <h5>si vous n'êtes pas encore Membre <a href="{{path('app_register')}}"> cliquez ici pour vous enregistrer</a> d'abord avant de vous connecter à notre site</h5>
+                    {% endif %}
+
+                </div>
+            </div>
         </div>
 
-        <div class="form-group ">
-            <h5><label> Mot de Passe </label></h5>
-            <input placeholder=" Password" type="password" required name="_password" type="password" class="form-conrol">
-        </div>
+                {#
+                    Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+                    See https://symfony.com/doc/current/security/remember_me.html
 
-        <button type="submit " class="btn btn-primary"> Se conneter </button>
+                    <div class="checkbox mb-3">
+                        <label>
+                            <input type="checkbox" name="_remember_me"> Remember me
+                        </label>
+                    </div>
+                #}
 
+                <button class="btn btn-lg btn-primary" type="submit">
+                    Connexion
+                </button>
     </form>
 </div>
-
-
+</div>
 {% endblock %}

@@ -8,12 +8,19 @@ use App\Repository\LocationRepository;
 use App\Entity\Categorie;
 use App\Repository\CategorieRepositorie;
 
+use App\Entity\Images;
+use App\Repository\ImagesRepository;
+
+use App\Form\LocationType;
+
 use App\Form\FilterType;
 use App\Model\Filter;
 
 use App\Data\SearchData;
-use App\Form\SearchForm;
+use App\DataFixtures\ImagesFixtures;
 
+use App\Form\SearchForm;
+use App\Repository\ImageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,10 +28,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormFactoryInterface; 
 
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class LocationController extends AbstractController
 { 
@@ -118,7 +123,7 @@ class LocationController extends AbstractController
      * @param
      */
     public function lisApprtements(LocationRepository $locationrepo, Request $request, FormFactoryInterface $formFactory)
-    {sky
+    {
         $locations= $locationrepo->findByCatAppartements();
        // Appel de la page pour affichage
         return $this->render('location/location_categorie.html.twig', [
@@ -205,60 +210,39 @@ class LocationController extends AbstractController
      * @param Response
     */
     // Creation de Location
-    public function nouvellocation(Request $request): Response
+    public function nouvellocation(Request $request, ImagesRepository $images): Response
     {
         $location = new Location();
 
     // Creation du Formaulaire avec CreateFormBuilder
-        $form = $this->createFormBuilder($location)
-                    ->add('denomination')
-                    ->add('categorie', EntityType::class, [
-                        // looks for choices from this entity
-                            'class' => Categorie::class,
-                        // uses the User.username property as the visible option string
-                        'choice_label' => 'titre'])                
-                    ->add('photo')   
-                    ->add('description')
-                    ->add('surface')                
-                    ->add('type', ChoiceType::class, array(
-                            'choices' => array(
-                                'F1'=> 'F1',
-                                'F2'=> 'F2',
-                                'F3'=> 'F3',
-                                'F4'=> 'F4',
-                                'F5'=> 'F5',
-                                'F6'=> 'F6',
-                            )))
-    
-                    ->add('chambre', ChoiceType::class, array(
-                        'choices' => array(
-                            '1'=> '1',
-                            '2'=> '2',
-                            '3'=> '3',
-                            '4'=> '4',
-                            '5'=> '5',
-                            '6'=> '6',
-                        )))
-                    ->add('etage')                
-                    ->add('prix')    
-                    ->add('adresse')
-                    ->add('cp')                
-                    ->add('ville')    
-                    ->add('pays')      
-                    ->add('accessibility', ChoiceType::class, array(
-                        'choices' => array(
-                            'Oui'=> 'oui',
-                        )))          
-
-        //Utiser la Function GetForm pour voir le resultat Final
-                    ->getForm();
-        
-        // Traitement de la requete (http) passée en parametre
+        $form = $this->createForm(LocationType::class, $location);
+                            
+    // Traitement de la requete (http) passée en parametre
         $form->handleRequest($request);
 
-        // Test sur le Remplissage / la soummision et la validité des champs
+    // Test sur le Remplissage / la soummision et la validité des champs
         if ($form->isSubmitted() && $form->isValid()) {
             
+            // Recupération desimages transmises
+            $images = $form->get('images')->getData();
+
+            //On boucle sur les images
+            foreach ($images as $image) {
+                //on génère un nouveau nom de Fichier
+                $fichier = md5(uniqid()). '.'. $image->guessExtension();
+
+                // On copie le File d'un emplacement vers ou dans le Dossier Upload (Move)
+                $image->move(
+                    $this->getParameter('images_directory'),
+                    $fichier
+                    );
+                
+                // On stocke l'image dans la base de données (son nom)
+                $img = new Images();
+                $img->setName($fichier);
+                $location->addImage($img);
+            }
+
             // Affectation de la Date à mon article
             $location->setCreatedAt(new \DateTime());
 
@@ -286,48 +270,40 @@ class LocationController extends AbstractController
     public function edit($id, location $location, Request $request)
     {
         // Demande de al creation du Formaulaire avec CreateFormBuilder
-                $form = $this->createFormBuilder($location)
-                ->add('denomination')
-                ->add('categorie', EntityType::class, [
-                    // looks for choices from this entity
-                        'class' => Categorie::class,
-                    // uses the User.username property as the visible option string
-                    'choice_label' => 'titre'])                
-                ->add('photo')   
-                ->add('description')
-                ->add('surface')                
-                ->add('type', ChoiceType::class, array(
-                    'choices' => array(
-                        'F1'=> 'F1',
-                        'F2'=> 'F2',
-                        'F3'=> 'F3',
-                        'F4'=> 'F4',
-                        'F5'=> 'F5',
-                        'F5'=> 'F6',
-                    )))    
-                ->add('chambre')
-                ->add('etage')                
-                ->add('prix')    
-                ->add('adresse')
-                ->add('cp')                
-                ->add('ville')    
-                ->add('pays')      
-                ->add('accessibility')  
-
-        //Utiser la Function GetForm pour voir le resultat Final
-                    ->getForm();
-        
+                $form = $this->createForm(LocationType::class, $location);
+                
         // Traitement de la requete (http) passée en parametre
         $form->handleRequest($request);
 
+
+
         // Test sur le Remplissage / la soummision et la validité des champs
         if ($form->isSubmitted() && $form->isValid()) {
-            
+         
+         // Recupération desimages transmises
+         $images = $form->get('images')->getData();
+
+         //On boucle sur les images
+         foreach ($images as $image) {
+             //on génère un nouveau nom de Fichier
+             $fichier = md5(uniqid()). '.'. $image->guessExtension();
+
+             // On copie le File d'un emplacement vers ou dans le Dossier Upload (Move)
+             $image->move(
+                 $this->getParameter('images_directory'),
+                 $fichier
+                 );
+             
+             // On stocke l'image dans la base de données (son nom)
+             $img = new Images();
+             $img->setName($fichier);
+             $location->addImage($img);
+         }
+
         // $entityManager = $this->getDoctrine()->getManager();
         // $this->em->persist($location); // Pas besoin de faire de Persistance ici, L'objet vient de la Base de données
            $this->em->flush();
             
-
         //Enregistrement et Retour sur la page de l'article
             return $this->redirectToRoute('location_admin.index');
         }
@@ -376,4 +352,34 @@ class LocationController extends AbstractController
         return $this->redirectToRoute('location_admin.index');
     }
 
+    /** 
+     * @Route("/image/{id}/supprime"), name="location_delete_image", methods={"DELETE"})
+     * 
+    */
+    public function deleteImage(Images $images, Request $request)
+    {
+        $data = json_decode($request->getcode);
+        if ($this->isCsrfTokenValid('delete'.$image->getId(), $data['_token'])) 
+        {
+            // Je recupere le nom de l'image
+            $nom = $image->getName();
+            // On supprime le Fichier
+            unlink($this->getParameter('image_directory').'/'.$nom);
+            
+            // On supprime l'entrée de la base
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($image);
+            $entityManager->flush();
+
+            // Reponse en Json
+            return new JsonResponse(['success' => 1]);
+        } else 
+            {
+                return new jsonResponse(['Error' => 'Tokeinvalid'], 400);
+             }
+        
+             return $this->redirectToRoute('location_admin.index');
+    }
 }
+
+

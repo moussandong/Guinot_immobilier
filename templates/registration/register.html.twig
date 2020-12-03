@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+  {{ include('_header_footers/header-adm-users.html.twig') }}
+  <div class="container">
+
+    {% for flashError in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+    {% endfor %}
+
+    <h3>Enregitrement Utilisateur</h3>
+
+    {{ form_start(registrationForm) }}
+        {{ form_row(registrationForm.noms) }}
+        {{ form_row(registrationForm.prenoms) }}
+        {{ form_row(registrationForm.username) }}
+        {{ form_row(registrationForm.mail) }}
+        {{ form_row(registrationForm.adresse) }}
+        {{ form_row(registrationForm.roles) }}
+        {{ form_row(registrationForm.plainPassword, {
+            label: 'Password'
+        }) }}
+        {{ form_row(registrationForm.agreeTerms) }}
+
+        <button type="submit" class="btn-outline-danger">Enregistrez!</button>
+    {{ form_end(registrationForm) }}
+
+</div>
+{% endblock %}

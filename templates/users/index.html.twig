@@ -1,0 +1,68 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Users index{% endblock %}
+
+{% block body %}
+  {{ include('_header_footers/header-adm-users.html.twig') }}
+  <div class="container">
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Username</th>
+                <th>Noms</th>
+                <th>Mail</th>
+                <th>Roles</th>
+                <th>Date incription</th>
+                <th>Last Connexion</th>
+              {#  <th>Password</th>#}
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.noms }}</td>
+                 <td>{{ user.mail }}</td>
+
+                 <td>
+                    {% for role in user.roles %}
+                        {% if role=="ROLE_USER" %}
+                            - Utilisateur </br>
+                            {% elseif role=="ROLE_EDITOR" %}
+                            - Editeur </br>
+                            {% elseif role=="ROLE_MODERA" %}
+                                - Moderateur </br>
+                            {% elseif role=="ROLE_ADMIN" %}
+                                - Administrator </br>
+                        {% endif %}
+                    {% endfor %}
+                   {# {{ user.roles }}</td> #}
+
+                 <td>{{ user.createdAt | date('d/m/Y')}}</td>
+                 <td>##</td>
+
+                {# <td>{{ user.password }}</td> #}
+                <td>
+                    <a href="{{ path('users_show', {'id': user.id}) }}"><button type="button" class="btn btn-outline-primary">Afficher</a>
+                    <a href="{{ path('app_user_edit', {'id': user.id}) }}"><button type="button" class="btn btn-outline-secondary">Editer</a>
+                     {{ include('users/_delete_form.html.twig') }}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Pas d'Enregistrement</td>
+            </tr>
+        {% endfor %}
+            <a href="{{ path('app_register') }}"><button type="button" class="btn-outline-light">Enregistrer un nouvel utilisateur </a>
+        </tbody>
+    </table>
+
+
+
+</div>
+
+{% endblock %}

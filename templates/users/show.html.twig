@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Users{% endblock %}
+
+{% block body %}
+
+  {{ include('_header_footers/header-adm-users.html.twig') }}
+
+<div class="container">
+    <h3>Utilisateurs </h3>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ user.id }}</td>
+            </tr>
+            <tr>
+                <th>Username</th>
+                <td>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <th>Noms :</th>
+                <td>{{ user.noms }}</td>
+            </tr>
+            <tr>
+                <th>Prenoms</th>
+                <td>{{ user.prenoms }}</td>
+            </tr>
+            <tr>
+                <th>Mails</th>
+                <td>{{ user.mail }}</td>
+            </tr>
+
+            <tr>
+                <th>Adresse</th>
+                <td>{{ user.adresse }}</td>
+            </tr>
+            <tr>
+                <th>Date d'inscription</th>
+                <td>{{ user.createdAt | date('d/m/Y')}}</td>
+            </tr>
+
+        </tbody>
+    </table>
+        <div align="right" class = "contenu ">
+
+                <a href="{{ path('users_edit', {'id': user.id}) }}"><button class="btn btn-primary">Editer</button></a> </br>
+               
+                </br> {{ include('users/_delete_form.html.twig') }} </br>
+
+                 <a href="{{ path('users_index') }}"><button class="btn btn-primary">Liste des Utilisateurs</button></a> </br></br>
+
+        </div>
+
+
+</div>
+
+{% endblock %}

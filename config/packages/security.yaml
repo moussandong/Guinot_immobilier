@@ -1,40 +1,38 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
-    #providers:
-    #    in_memory: { memory: null }
-    
     providers:
-    #    in_memory: { memory: null } 
-    #        memory:
-    #            users: 
-    #                ipalakot:
-    #                    password: ipalakot
-    #                    roles: ROLE_ADMIN
-        in_database:
+        app_user_provider:
             entity:
-                class: App\Entity\Utilisateurs
-                property: email
-
+                class: App\Entity\Users
+                property: username
+                
+#        users_in_memory: { memory: null }
+    
+#        in_database:
+#            entity:
+#                class: App\Entity\Utilisateurs
+#                property: mail    
 
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-
+        
         main:
-            pattern: ^/
-            anonymous: ~
-        #    anonymous: true
-            provider: in_database
-        #    http_basic : true
-
+            anonymous: lazy
+#            provider: users_in_memory
+#            guard:
+#                authenticators:
+#                    - App\Security\UsersAuthenticator
             logout:
-                path: admin.logout
-                target: /
+                path: app_logout
+                
+            guard:
+                authenticators:
+                    - App\Security\UsersAuthenticator
+                # where to redirect after logout
+                # target: app_any_route
 
-            form_login:
-                check_path: admin.login
-                login_path: admin.login #chemin de login
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 
@@ -44,17 +42,18 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-    #    - { path: ^/admin, roles: ROLE_ADMIN }
-    #    - { path: '^/admin', roles : ROLE_ADMIN }
-    #    - { path: ^/login, roles : IS_AUTHENTICATED_ANONYMOUSLY }
-    #    - { path: /_wdt/.*, roles : IS_AUTHENTICATED_ANONYMOUSLY }
-        # - { path: ^/profile, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        
-        # - { path: ^/profile, roles: ROLE_USER }
-        
+         - { path: ^/admin, roles: ROLE_USER }
+         - { path: ^/profile, roles: ROLE_USER }
+
+
+    role_hierarchy:
+        ROLE_USER:              
+        ROLE_EDITOR:      [ ROLE_USER ]
+        ROLE_MODERATOR:   [ ROLE_EDITOR ]
+        ROLE_ADMIN:       [ ROLE_USER_MOERATOR ]
+        ROLE_SUPER_ADMIN: [ ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH ]
+    
     encoders:
-        #Symfony\Component\Security\Core\User\User: plaintext
         Symfony\Component\Security\Core\User\User: plaintext
-        App\Entity\User:
-            algorithm: sha512
-            cost: 12 
+        App\Entity\Users:
+            algorithm: auto    

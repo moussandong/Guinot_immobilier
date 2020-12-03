@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Users{% endblock %}
+
+{% block body %}
+
+{{ include('_header_footers/header-adm-users.html.twig') }}
+
+<div class="container">
+        <h3>Edition Utilisateur</h3>
+
+        {{ include('users/_form.html.twig', {'button_label': 'Update'}) }}
+
+        <a href="{{ path('users_index') }}">back to list</a>
+
+        {{ include('users/_delete_form.html.twig') }}
+
+</div>
+
+{% endblock %}

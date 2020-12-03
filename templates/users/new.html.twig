@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Users{% endblock %}
+
+{% block body %}
+
+  {{ include('_header_footers/header-adm-users.html.twig') }}
+  
+<div class="container">
+
+    <h3>Nouvel Utilisateur </h3>
+
+    {{ include('users/_form.html.twig') }}
+
+    <a href="{{ path('users_index') }}">back to list</a>
+</div>
+{% endblock %}

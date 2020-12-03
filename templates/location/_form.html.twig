@@ -1,21 +1,29 @@
 
  
   <div class="container mt-4 d-block p-2 bg-secondary text-white">
-        
-<div class="progress">
-  <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 100%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
-</div>
+           
+     {#{{ form_widget(formlocation) }}#}
+
+    {{ form_start(formlocation) }}
 
     <div class="form-group ">
         <div class="form-group row">
             <div class="col-md-6"> {{ form_row(formlocation.denomination) }} </div>
             <div class="col-md-2"> {{ form_row(formlocation.categorie) }} </div>
-            <div class="col-md-4"> {{ form_row(formlocation.photo) }} </div>
+            <div class="col-md-2"> {{ form_row(formlocation.photo) }} </div>
+            <div class="col-md-2"> {{ form_row(formlocation.images) }} </div>
+            {% for image in formlocation.images %}
+                <div>
+                    <img src="{{ asset('images/uploads' ~ image.name) }}" alt="image" width="150">
+                </div>
+            {% endfor %}
+
         </div>
     </div>
 
         <div class="row">
             <div class="col-md-12"> {{ form_row(formlocation.description) }} </div>
+            
         </div>
         
         <div class="row">
@@ -36,9 +44,19 @@
             <div class="col-md-5"> {{ form_row(formlocation.ville) }} </div>
             <div class="col-md-5"> {{ form_row(formlocation.pays) }} </div>
         </div>
-
-
-        {{ form_widget(formlocation) }}
-      <button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
+        <div class="row">
+            {% if app.request.attributes.get('_route') == 'location.edition' %}
+                    <h4>    Les images </h4>
+                    {% for image in formlocation.images %}
+                        <div>
+                            <img src="{{ asset('images/uploads' ~ image.name) }}" alt="image" width="150">
+                            <a href="{{ path('location_delete_image', {id: image.id}) }}"
+                            data-delete data-token="{{ csrf_token('delete' ~ image.id ) }}"> Supprimer </a>
+                        </div>
+                    {% endfor %}
+            {% endif %}    
+        </div>
+         <button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
         {{ form_end(formlocation) }}
+        
 </div>
